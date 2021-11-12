@@ -3,6 +3,13 @@
 @import "./fonts.scss";
 @import "./grains.scss";
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
 .wrapper {
   width: 1920px;
   height: 1080px;
@@ -90,11 +97,11 @@
   background-color: #fff;
   text-align: center;
   border-radius: 8px;
-  font-family: "Poppins";
   margin-bottom: 10px;
+  cursor: pointer;
 
   &--disabled {
-    opacity: 0.6;
+    opacity: 0.6 !important;
     pointer-events: none;
   }
 }

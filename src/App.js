@@ -70,9 +70,9 @@ const PersonCard = (props) => {
 
   return (
     <motion.div
-      initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 100, opacity: 0 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: 100, opacity: 0 }}
       className="person-wrapper"
     >
       <i className="far fa-times-circle close" onClick={handleDelete}></i>
@@ -144,6 +144,15 @@ const App = () => {
             />
           ))}
         </AnimatePresence>
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="button"
+        >
+          <a href="https://elmah.io/tools/base64-image-encoder/" target="_blank">
+            Convert images here
+          </a>
+        </motion.div>
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
