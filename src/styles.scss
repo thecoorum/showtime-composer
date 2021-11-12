@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+@import "./fonts.scss";
+@import "./grains.scss";
+
+.wrapper {
+  width: 1920px;
+  height: 1080px;
+
+  background-color: #161312;
+
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--vh {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.title {
+  font-family: "Monument";
+
+  color: #cd2223;
+
+  font-size: 96px;
+  text-transform: uppercase;
+
+  position: absolute;
+
+  &--relative {
+    position: relative;
+  }
+
+  &--inline {
+    display: inline-block;
+  }
+
+  &--outlined {
+    color: transparent;
+    -webkit-text-stroke: 2px #cd2223;
+  }
+
+  &--transparent {
+    color: transparent;
+  }
+
+  &--rotate {
+    font-size: 32px;
+    height: 150px;
+    position: absolute;
+    width: 20px;
+    left: 0;
+    top: 0;
+    transform-origin: bottom center;
+  }
+}
+
+.square {
+  height: 450px;
+
+  padding: 15px;
+
+  position: absolute;
+
+  background-color: #fff;
+  border: 2px solid #fff;
+
+  &--outlined {
+    background-color: transparent;
+  }
+}
+
+.control-wrapper {
+  height: 100vh;
+  padding: 20px;
+  overflow-x: auto;
+  min-width: 300px;
+  max-width: 450px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.button {
+  padding: 10px;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  font-family: "Poppins";
+  margin-bottom: 10px;
+
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.person-wrapper {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 25px 28px;
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: lightgrey;
+    margin-right: 18px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  input {
+    width: 100%;
+
+    padding: 5px 10px;
+
+    margin-bottom: 5px;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal {
+  &-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(#000, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+
+  &-container {
+    max-width: 80%;
+    max-height: 80%;
+
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+}
