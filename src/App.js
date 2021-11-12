@@ -1,11 +1,12 @@
 // React
-import React, { useState, Fragment } from "react";
+import React, { useState, useCallback, Fragment } from "react";
 
 // Libraries
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Series, Audio } from "remotion";
 import { Player } from "@remotion/player";
+import { useDropzone } from "react-dropzone";
 
 // Components
 import Sliding from "./scenes/SlidingBackground";
@@ -64,6 +65,31 @@ const Sequence = (props) => {
 };
 
 const PersonCard = (props) => {
+  const onDrop = useCallback((files) => {
+    const preview = URL.createObjectURL(files[0]);
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = () => {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        props.setValue(`persons.${props.index}.image`, reader.result);
+      };
+
+      reader.readAsDataURL(xhr.response);
+    };
+
+    xhr.open("GET", preview);
+    xhr.responseType = "blob";
+    xhr.send();
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: "image/jpeg, image/png",
+    maxFiles: 1,
+    onDrop,
+  });
+
   const handleDelete = () => {
     props.remove(props.index);
   };
@@ -81,13 +107,15 @@ const PersonCard = (props) => {
         style={{
           backgroundImage:
             props.watch(`persons.${props.index}.image`) &&
-            `url('data:image/png;base64,${props.watch(
-              `persons.${props.index}.image`
-            )}')`,
+            `url('${props.watch(`persons.${props.index}.image`)}')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-      />
+        {...getRootProps()}
+      >
+        <input {...getInputProps()} />
+        {!props.watch(`persons.${props.index}.image`) && <i className="far fa-image"></i>}
+      </div>
       <div className="info">
         <input
           placeholder="Name"
@@ -97,10 +125,6 @@ const PersonCard = (props) => {
           placeholder="Position (e.g. Software Engineer)"
           {...props.register(`persons.${props.index}.subtitle`)}
         />
-        <input
-          placeholder="Image (BASE64 string)"
-          {...props.register(`persons.${props.index}.image`)}
-        />
       </div>
     </motion.div>
   );
@@ -109,7 +133,7 @@ const PersonCard = (props) => {
 const App = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const { control, register, watch } = useForm();
+  const { control, register, watch, setValue } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "persons",
@@ -141,6 +165,7 @@ const App = () => {
               register={register}
               remove={remove}
               watch={watch}
+              setValue={setValue}
             />
           ))}
         </AnimatePresence>
@@ -149,9 +174,7 @@ const App = () => {
           animate={{ y: 0, opacity: 1 }}
           className="button"
         >
-          <a href="https://elmah.io/tools/base64-image-encoder/" target="_blank">
-            Convert images here
-          </a>
+          <p>Drag &amp; drop image to avatar area to apply it</p>
         </motion.div>
         <motion.div
           initial={{ y: 50, opacity: 0 }}

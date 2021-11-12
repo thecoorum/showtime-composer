@@ -24,8 +24,8 @@ const CircleText = (props) => {
         a 129.5,129.5 0 1,1 -259,0"
         />
       </defs>
-      <text className="title" style={{ fontSize: 32, fill: "#cd2223" }}>
-        <textPath xlinkHref="#circle">{props.text}</textPath>
+      <text className="title" style={{ fontSize: 32, fill: "#cd2223", fontFamily: 'Monument' }}>
+        <textPath xlinkHref="#circle" style={{ fontSize: 32, fill: "#cd2223", fontFamily: 'Monument' }}>{props.text}</textPath>
       </text>
     </svg>
   );

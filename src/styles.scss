@@ -124,6 +124,18 @@
     border-radius: 50%;
     background-color: lightgrey;
     margin-right: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+
+    input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 1px;
+    }
   }
 
   .info {
