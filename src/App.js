@@ -84,7 +84,8 @@ const PersonCard = (props) => {
     xhr.responseType = "blob";
     xhr.send();
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+
+  const { getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
     maxFiles: 1,
     onDrop,
@@ -114,7 +115,9 @@ const PersonCard = (props) => {
         {...getRootProps()}
       >
         <input {...getInputProps()} />
-        {!props.watch(`persons.${props.index}.image`) && <i className="far fa-image"></i>}
+        {!props.watch(`persons.${props.index}.image`) && (
+          <i className="far fa-image"></i>
+        )}
       </div>
       <div className="info">
         <input
@@ -134,18 +137,91 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { control, register, watch, setValue } = useForm();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, remove, prepend } = useFieldArray({
     control,
     name: "persons",
   });
 
   const handleAddPerson = () => {
-    append({ name: "", position: "", image: "" });
+    prepend({ name: "", position: "", image: "" });
   };
 
   const handleToggleModal = () => {
     setShowModal((prev) => !prev);
   };
+
+  const persons = watch("persons");
+
+  return (
+    <div className="app">
+      <AnimatePresence>
+        <div className="action-area">
+          {(persons || []).map((person, index) => (
+            <PersonCard
+              key={person.id}
+              index={index}
+              person={person}
+              register={register}
+              remove={remove}
+              watch={watch}
+              setValue={setValue}
+            />
+          ))}
+          {(persons || []).length > 0 && (
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="button"
+            >
+              <p>Drag &amp; drop image to avatar area to apply it</p>
+            </motion.div>
+          )}
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="button"
+            onClick={handleAddPerson}
+          >
+            <i className="fas fa-plus"></i> Add person
+          </motion.div>
+        </div>
+        <div className="player-area">
+          <motion.div
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="player-container"
+          >
+            <Player
+              component={Sequence}
+              durationInFrames={350 + (persons || []).length * 90}
+              compositionWidth={1920}
+              compositionHeight={1080}
+              fps={30}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+              controls
+              doubleClickToFullscreen
+              inputProps={{
+                scenes: watch("persons"),
+              }}
+            />
+            {(persons || []).length < 2 && (
+              <motion.div
+                className="player-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                2 or more persons are required to watch
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      </AnimatePresence>
+    </div>
+  );
 
   return (
     <div className="wrapper wrapper--vh">

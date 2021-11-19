@@ -81,6 +81,7 @@ const Square = (props) => {
               left: "50%",
               position: "absolute",
               transform: "translate(-50%, -50%)",
+              width: '100%'
             }}
           />
         )}
